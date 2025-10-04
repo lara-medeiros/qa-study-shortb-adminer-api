@@ -24,9 +24,31 @@ O foco deste repositório é testar a aplicação, e adquirir conhecimentos a re
 
 ## Como executar
 
+### Pré-requisitos
+
+1. **Docker Desktop** - Instale o Docker Desktop em sua máquina
+2. **WSL2** - Configure o WSL2 (Windows Subsystem for Linux) para compatibilidade com Docker
+
+### Executando a aplicação
+
+Após a instalação dos pré-requisitos, execute o seguinte comando na raiz do projeto:
+
 ```bash
-# Instruções de instalação e execução
+docker compose up -d
 ```
+
+Este comando irá:
+- Baixar as imagens necessárias (PostgreSQL, Adminer, API e Web)
+- Criar e iniciar todos os containers
+- Configurar a rede interna entre os serviços
+- Executar todos os serviços em background (`-d`)
+
+### Acessando os serviços
+
+- **Frontend Web**: http://localhost
+- **API**: http://localhost:3333
+- **Adminer (Banco de dados)**: http://localhost:8080
+- **PostgreSQL**: localhost:5432
 
 ## Testes
 

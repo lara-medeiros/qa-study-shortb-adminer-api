@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  shortb-db:
+    image: postgres:15
+    container_name: shortb-db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: "${POSTGRES_DB}"
+      TZ: "${TZ}"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - shortbeyond-network
+
+  shortb-adminer:
+    image: adminer
+    container_name: shortb-adminer
+    ports:
+      - "8080:8080"
+    depends_on:
+      - shortb-db
+    networks:
+      - shortbeyond-network
+
+  shortb-api:
+    image: beyondtest/shortb-api:hotfix
+    container_name: shortb-api
+    ports:
+      - "3333:3333"
+    environment:
+      PORT: "${API_PORT}"
+      DATABASE_URL: "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@shortb-db:5432/${POSTGRES_DB}?sslmode=disable"
+      JWT_SECRET: "${JWT_SECRET}"
+    depends_on:
+      - shortb-db
+    networks:
+      - shortbeyond-network
+
+  shortb-web:
+    image: beyondtest/shortb-web:latest
+    container_name: shortb-web
+    ports:
+      - "80:80"
+    depends_on:
+      - shortb-api
+    networks:
+      - shortbeyond-network
+
+volumes:
+  postgres_data:
+
+networks:
+  shortbeyond-network:
+    driver: bridge
