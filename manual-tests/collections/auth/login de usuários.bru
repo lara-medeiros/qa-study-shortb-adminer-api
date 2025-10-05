@@ -1,0 +1,205 @@
+meta {
+  name: login de usuários
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/auth/login
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "email": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@example.com",
+    "password": "123456"
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  # Endpoint de Login
+  Este endpoint realiza a autenticação de usuários já cadastrados na aplicação de encurtador de URLs, permitindo que acessem e gerenciem suas URLs encurtadas e personalizadas.
+  
+  ## Parametros
+  - email: email do usuário (máximo de 255 caracteres)
+  - password: senha do usuário (máximo de 255 caracteres)
+  
+  ## Casos de Testes
+  
+  - Login sem payload 🆗
+  
+  request
+  ```
+  {}
+  ```
+  response
+  ```
+  {
+    "message": "Dados inválidos ou erro desconhecido."
+  }
+  ```
+  - Login do usuário com sucesso 🆗
+  
+  request
+  ```
+  {
+    "email":"laramedeiros695@gmail.com",
+    "password": "123456"
+  }
+  ```
+  response
+  ```
+  {
+    "data": {
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMDFLNlQwTVFGSjk4TjNZSlBSMkRHWTVBVjgiLCJleHAiOjE3NTk3NDk3NTgsImlhdCI6MTc1OTY2MzM1OH0.Xs_fX001a0zvhmxxzwRM3ptvCxBftQ2w4sUM1iihos0",
+      "user": {
+        "id": "01K6T0MQFJ98N3YJPR2DGY5AV8",
+        "name": "Lara",
+        "email": "laramedeiros695@gmail.com"
+      }
+    },
+    "message": "Login realizado com sucesso"
+  }
+  ```
+  
+  - Login de um usuário com senha inválida 🆗
+  
+  request
+  ```
+  {
+    "email":"laramedeiros695@gmail.com",
+    "password": "12345"
+  }
+  ```
+  response
+  ```
+  {
+    "message": "Credenciais inválidas"
+  }
+  ```
+  
+  - Login com email inválido 🆗
+  
+  request
+  ```
+  {
+    "email": "invalid-email",
+    "password": "123456"
+  }
+  ```
+  response
+  ```
+  {
+    "message": "O campo 'Email' deve ser um email válido"
+  }
+  ```
+  - Login sem preencher email 🆗
+  
+  request
+  ```
+  {
+    "email": ""
+  }
+  ```
+  response
+  ```
+  {
+    "message": "O campo 'Email' é obrigatório"
+  }
+  ```
+  
+  - Login sem preencher a senha 🆗
+  
+  request
+  ```
+  {
+    "email": "laramedeiros695@gmail.com"
+  }
+  ```
+  response
+  ```
+  {
+    "message": "O campo 'Password' é obrigatório"
+  }
+  ```
+  
+  - Login de usuário sem cadastro 🆗
+  
+  request
+  ```
+  {
+    "email": "nao.cadastrado.001@example.com",
+    "password": "123456"
+  }
+  ```
+  response
+  ```
+  {
+    "message": "Credenciais inválidas"
+  }
+  ```
+  - Login com senha contendo espaços ou caracteres especiais 🆗
+  
+  request
+  ```
+  {
+    "email": "laramedeiros695@gmail.com",
+    "password": " 12 34 56 !@# "
+  }
+  ```
+  response
+  ```
+  {
+    "message": "Credenciais inválidas"
+  }
+  ```
+  - Login após múltiplas tentativas falhas 🆗
+  
+  request (executar 5 vezes com a senha errada)
+  ```
+  {
+    "email": "laramedeiros695@gmail.com",
+    "password": "senha_errada"
+  }
+  ```
+  response
+  ```
+  {
+    "message": "Credenciais inválidas"
+  }
+  ```
+  - Login usando método HTTP inválido 🆗
+  
+  request (get ou delete)
+  ```
+  {
+    "email": "laramedeiros695@gmail.com",
+    "password": "123456"
+  }
+  ```
+  response
+  ```
+  404 page not found
+  ```
+  - Login com email excedendo limite de caracteres (255) 🆗
+  
+  request
+  ```
+  {
+    "email": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@example.com",
+    "password": "123456"
+  }
+  ```
+  response
+  ```
+  {
+    "message": "Credenciais inválidas"
+  }
+  ```
+  
+}

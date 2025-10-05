@@ -1,0 +1,245 @@
+meta {
+  name: cadastro de usuário
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/auth/register
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Lara",
+    "email": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@example.com",
+    "password": "123456"
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  # Endpoint de Cadastro
+  Este endpoint realiza o cadastro de novos usuários para uma aplicação de encurtador de URLs, para permitir que um usuário consiga criar e gerenciar urls encurtadas e personalizadas.
+  
+  ## Parametros
+  - name: nome do usuário (máximo de 255 caracteres)
+  - email: email do usuário (máximo de 255 caracteres)
+  - password: senha do usuário (máximo de 255 caracteres)
+  
+  ## Casos de Testes
+  
+  - Cadastro sem payload 🆗
+  
+  request
+  ```
+  {}
+  ```
+  response
+  ```
+  {
+    "message": "Dados inválidos ou erro desconhecido."
+  }
+  ```
+  
+  - Cadastro de um novo usuário 🆗
+  
+  request
+  ```
+  {
+    "name": "Lara",
+    "email": "laramedeiros695@gmail.com",
+    "password": "123456"
+  }
+  ```
+  response
+  ```
+  {
+    "message": "Usuário cadastrado com sucesso!",
+    "user": {
+      "id": "01K6T0MQFJ98N3YJPR2DGY5AV8",
+      "name": "Lara",
+      "email": "laramedeiros695@gmail.com"
+    }
+  }
+  ```
+  
+  - Cadastro com uma senha inválida 🆗
+  
+  request
+  ```
+  {
+    "name": "Lara",
+    "email": "laramedeiros695+senha-invalida@gmail.com",
+    "password": "123"
+  }
+  ```
+  response
+  ```
+  {
+    "message": "O campo 'Password' deve ter no mínimo 6 caracteres"
+  }
+  ```
+  
+  - Cadastro com um email inválido 🆗
+  
+  request
+  ```
+  {
+    "name": "Lara",
+    "email": "invalid-email",
+    "password": "123456"
+  }
+  ```
+  response
+  ```
+  {
+    "message": "O campo 'Email' deve ser um email válido"
+  }
+  ```
+  
+  - Cadastro sem inserir 'nome' do usuário 🆗
+  
+  request
+  ```
+  {
+    "email": "laramedeiros695+sem-nome@gmail.com",
+    "password": "123456"
+  }
+  ```
+  response
+  ```
+  {
+    "message": "O campo 'Name' é obrigatório"
+  }
+  ```
+  - Cadastro sem o 'email' e 'senha' sem ser informado 🆗
+  
+  request
+  ```
+  {
+    "name": "Lara"
+  }
+  ```
+  response
+  ```
+  {
+    "message": "O campo 'Email' é obrigatório"
+  }
+  ```
+  
+  - Cadastro sem a 'senha' ser informado 🆗
+  
+  request
+  ```
+  {
+    "name": "Lara",
+    "email": "laramedeiros695@gmail.com"
+  }
+  ```
+  response
+  ```
+  {
+    "message": "O campo 'Password' é obrigatório"
+  }
+  ```
+  
+  - Cadastro com um 'email' já cadastrado (existente) 🆗
+  
+  request
+  ```
+  {
+    "name": "Lara",
+    "email": "laramedeiros695@gmail.com",
+    "password": "123456"
+  }
+  ```
+  response
+  ```
+  {
+    "message": "Este e-mail já está em uso. Por favor, tente outro."
+  }
+  ```
+  
+  - Cadastro com um 'email' que utilize um 'alias' 🆗
+  
+  request
+  ```
+  {
+    "name": "Lara Alias",
+    "email": "laramedeiros695+alias@gmail.com",
+    "password": "123456"
+  }
+  ```
+  response
+  ```
+  {
+    "message": "Usuário cadastrado com sucesso!",
+    "user": {
+      "id": "01K6T407CEE37H2V8ZCQS0XTY0",
+      "name": "Lara Alias",
+      "email": "laramedeiros695+alias@gmail.com"
+    }
+  }
+  ```
+  
+  - Cadastro com email excedendo o limite de caracteres (255) 🆗
+  
+  request
+  ```
+  {
+    "name": "Lara",
+    "email": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@example.com",
+    "password": "123456"
+  }
+  ```
+  response
+  ```
+  {
+    "message": "erro ao criar usuário"
+  }
+  ```
+  
+  - Cadastro com senha excedendo o limite de caracteres (255) 🆗
+  
+  request
+  ```
+  {
+    "name": "Lara",
+    "email": "laramedeiros695+senha-muito-longa@gmail.com",
+    "password": "ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp"
+  }
+  ```
+  response
+  ```
+  {
+    "message": "erro ao processar senha"
+  }
+  ```
+  
+  - Cadastro utilizando um email temporário 🆗
+  
+  request
+  ```
+  {
+    "name": "Lara",
+    "email": "lara_test@mailinator.com",
+    "password": "123456"
+  }
+  ```
+  response
+  ```
+  {
+    "message": "Usuário cadastrado com sucesso!",
+    "user": {
+      "id": "01K6T45VEZ71R8ATJ9CDK577S4",
+      "name": "Lara",
+      "email": "lara_test@mailinator.com"
+    }
+  }
+  ```
+}
