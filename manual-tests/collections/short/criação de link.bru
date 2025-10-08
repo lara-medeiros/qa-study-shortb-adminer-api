@@ -1,0 +1,182 @@
+meta {
+  name: criação de link
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/links
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMDFLNzI5MVFRUUhOQjlQOEdGM041N04ySjYiLCJleHAiOjE3NjAwMzM1NzYsImlhdCI6MTc1OTk0NzE3Nn0.ZjH-bSc4lwwjUEjc6otJDrRcULFrK26BD8Io8NDGOE4
+}
+
+body:json {
+  {
+    "original_url":"https://example.com/user",
+    "title":"Teste ID de outro usuário"
+    
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  # Endpoint de Criação de Links
+  Este endpoint cria um novo link encurtado para que o usuário possa gerar e gerenciar URLs curtas personalizadas.
+  
+  ## Parametros
+  - original_url	
+  - title
+  
+  ## Casos de Testes:
+  - Criar link sem autenticação de usuário 🆗
+  
+  request
+    ```
+     {}
+    ```
+    response
+    ```
+    {
+      "message": "Header Authorization é obrigatório"
+    }
+    ```
+    
+    - Criar link sem payload 🆗
+    
+    request
+    ```
+     {}
+    ```
+    response
+    ```
+    {
+      "message": "Dados inválidos ou erro desconhecido."
+    }
+    ```
+    
+    - Criar link com payload vazio 🆗
+      
+      request
+    ```
+     {
+     
+     }
+    ```
+    response
+    ```
+    {
+      "message": "O campo 'OriginalURL' é obrigatório"
+    }
+    ```
+    
+    - Criar link com "original_url" vazio  🆗
+      
+      request
+    ```
+     {
+      "original_url": ""
+    }
+    ```
+    response
+    ```
+    {
+      "message": "O campo 'OriginalURL' é obrigatório"
+    }
+    ```
+    
+    - Criar link com "original_url" inválido 🆗
+    
+     request
+    ```
+     {
+      "original_url":"laramedeiros.com"
+    }
+    ```
+    response
+    ```
+    {
+      "message": "O campo 'OriginalURL' deve ser uma URL válida"
+    }
+    ```
+    
+    - Criar link com "original_url" maior que 2048 caracteres 🆗
+    
+    request
+    ```
+    {
+      "original_url":"https://example.com/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "title":"Teste Title"
+  
+    }
+    ```
+    response
+    ```
+   {
+      "message": "erro ao criar link"
+    }  
+    ```
+    
+    - Criar link com "title" vazio 🆗
+    
+     request
+    ```
+     {
+     "original_url":"https://example.com/aaaaaaaa",
+        "title":""
+  
+      }
+    ```
+    response
+    ```
+    {
+      "message": "O campo 'Title' é obrigatório"
+    }
+    ```
+    
+    - Criar link com "title" com mais de (255) caracteres 🆗
+    
+     request
+    ```
+     {
+      "original_url":"https://example.com/aaaaaaaa",
+        "title":"Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title Teste Title"
+  
+      }
+    ```
+    response
+    ```
+    {
+      "message": "erro ao criar link"
+    }
+    ```
+    
+    - Criar link com sucesso 🆗
+    
+    request
+    ```
+     {
+      "original_url":"https://example.com/aaaaaaaaaaaaa",
+      "title":"Teste Title"
+  
+    }
+    ```
+    response
+    ```
+    {
+      "data": {
+        "id": "01K727340894ZCDAV6TQCS6QTA",
+        "original_url": "https://example.com/aaaaaaaaaaaaa",
+        "short_code": "HeMe0",
+        "title": "Teste Title"
+      },
+      "message": "Link criado com sucesso"
+    }
+    ```
+}

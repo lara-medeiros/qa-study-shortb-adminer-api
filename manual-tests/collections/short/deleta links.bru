@@ -1,0 +1,143 @@
+meta {
+  name: deleta links
+  type: http
+  seq: 3
+}
+
+delete {
+  url: {{baseUrl}}/api/links/
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMDFLNlQwTVFGSjk4TjNZSlBSMkRHWTVBVjgiLCJleHAiOjE3NjAwMzM2ODAsImlhdCI6MTc1OTk0NzI4MH0.ryfdEei1sYkkLOE4DCzJxEI_gaoDC3Ry9BvHVhCAi2g
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  # Endpoint de Deleção de Links
+    Este endpoint remove um link encurtado específico do usuário autenticado.
+    
+    ## Parâmetros
+    - id: ID único do link a ser deletado (obrigatório no path)
+    - Authorization: Bearer token (obrigatório no auth)
+    
+    ## Casos de Testes:
+    
+    - Deletar link com sucesso 🆗
+    
+    request (id único do link no path da url)
+    ```
+    {}
+    ```
+    response
+    ```
+    {
+          "message": "Link excluído com sucesso"
+        }
+    ```
+    
+    - Deletar link sem autenticação 🆗
+    
+    request
+    ```
+    {}
+    ```
+    response
+    ```
+    {
+      "message": "Header Authorization é obrigatório"
+    }
+    ```
+    
+    - Deletar link com token inválido 🆗
+    
+    request (id único do link no path da url)
+    ```
+    {}
+    ```
+    response
+    ```
+    {
+      "message": "token is malformed: token contains an invalid number of segments"
+    }
+    ```
+    
+    - Deletar link com ID inexistente 🆗
+    
+    request (id único do link no path da url)
+    ```
+    {}
+    ```
+    response
+    ```
+    {
+      "message": "token is malformed: token contains an invalid number of segments"
+    }
+    ```
+    
+    - Deletar link com ID de outro usuário 🆗
+    
+    request (id único do link no path da url)
+    ```
+    {}
+    ```
+    response
+    ```
+  {
+      "message": "token is malformed: could not base64 decode header: illegal base64 data at input byte 0"
+    }
+    ```
+    
+    - Deletar link com ID inválido 🆗
+    
+    request (id único do link no path da url)
+    ```
+    {}
+    ```
+    response
+    ```
+  {
+      "message": "Link não encontrado"
+    }
+    ```
+    
+    - Deletar link com ID vazio 🆗
+    
+    request (path vazio)
+    ```
+    {}
+    ```
+    response
+    ```
+  404 page not found
+    ```
+    
+    - Deletar link com ID nulo 🆗
+    
+    request (path sem informação)
+    ```
+    {}
+    ```
+    response
+    ```
+  404 page not found
+    ```
+    
+    - Deletar link com ID contendo espaços 🆗
+    
+    request (id único do link no path da url com espaçamento)
+    ```
+    {}
+    ```
+    response
+    ```
+  {
+      "message": "Link não encontrado"
+    }
+    ```
+}

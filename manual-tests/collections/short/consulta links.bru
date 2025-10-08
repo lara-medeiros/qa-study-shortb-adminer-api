@@ -1,0 +1,131 @@
+meta {
+  name: consulta links
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/links/
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMDFLNlQwTVFGSjk4TjNZSlBSMkRHWTVBVjgiLCJleHAiOjE3NjAwMzA5NzEsImlhdCI6MTc1OTk0NDU3MX0.1w5wawJYcrlgtLUhMrlSWY294ADnEoCwpbXLniGN17s
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  # Endpoint de Consulta de Links
+  Este endpoint retorna a lista de links encurtados do usuário autenticado, permitindo consultar todos os registros ou aplicar filtros simples.
+  
+  ## Parâmetros
+    -  A autenticação via Bearer Token é obrigatória.
+  
+    ## Casos de Testes:
+    
+    - Consultar link sem autenticação de usuário 🆗
+    
+    request
+    ```
+    {}
+    ```
+    response
+    ```
+    {
+      "message": "Header Authorization é obrigatório"
+    }
+    ```
+    
+    - Consultar links com token inválido 🆗
+    
+    request
+    ```
+    {}
+    ```
+    response
+    ```
+    {
+      "message": "token signature is invalid: signature is invalid"
+    }
+    ```
+    
+    - Consultar links quando não existem registros para o usuário autenticado 🆗
+    
+    request
+    ```
+    {}
+    ```
+    response
+    ```
+    {
+      "count": 0,
+      "data": [],
+      "message": "Links Encurtados"
+    }
+    ```
+    
+    - Consultar links com sucesso com um usuário que contenha registros 🆗
+    
+    request
+    ```
+    {}
+    ```
+    response
+    ```
+    {
+      "count": 7,
+      "data": [
+        {
+          "id": "01K726C3482EBWA3KRJ7TJ1VPY",
+          "original_url": "https://example.com/aaaaaaaa",
+          "short_code": "I1OAf",
+          "title": ".."
+        },
+        {
+          "id": "01K726CG1JPECW59A0ENPKJ86W",
+          "original_url": "https://example.com/aaaaaaaa",
+          "short_code": "VWatk",
+          "title": "123"
+        },
+        {
+          "id": "01K726D3GEN3GQXT69RT1FZRX4",
+          "original_url": "https://example.com/aaaaaaaa",
+          "short_code": "dOjhR",
+          "title": "🆗"
+        },
+        {
+          "id": "01K726G2RGS8J3S6W54A0727T1",
+          "original_url": "https://example.com/aaaaaaaa",
+          "short_code": "TMpEn",
+          "title": " "
+        },
+        {
+          "id": "01K726PTBZW8CY6CS313XKC8SG",
+          "original_url": "https://example.com/aaaaaaaa",
+          "short_code": "GYf3l",
+          "title": "T"
+        },
+        {
+          "id": "01K727340894ZCDAV6TQCS6QTA",
+          "original_url": "https://example.com/aaaaaaaaaaaaa",
+          "short_code": "HeMe0",
+          "title": "Teste Title"
+        },
+        {
+          "id": "01K728D599JP83PWM4K3BNEFFY",
+          "original_url": "https://example.com/aaaaaaaaaaaaa",
+          "short_code": "kaTm1",
+          "title": "Teste Title 2"
+        }
+      ],
+      "message": "Links Encurtados"
+    }
+    ```
+    
+    
+    
+}
