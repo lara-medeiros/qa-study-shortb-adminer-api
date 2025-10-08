@@ -1,0 +1,40 @@
+meta {
+  name: health check
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/health
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  # Endpoint de Health Check
+    Este endpoint verifica o status de saúde da API, confirmando se o serviço está funcionando corretamente e disponível para receber requisições.
+    
+    ## Parâmetros
+    - Nenhum parâmetro é necessário
+    - Não requer autenticação
+    
+    ## Casos de Testes:
+    
+    - Verificar status da API com sucesso 🆗
+    
+    request
+    ```
+    {}
+    ```
+    response
+    ```
+    {
+      "service": "shortbeyond-api",
+      "status": "healthy"
+    }
+    ```
+}
